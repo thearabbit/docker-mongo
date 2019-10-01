@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  # Router
+  router:
+    container_name: router
+    image: mongo:4.0.12
+    restart: always
+    command: mongos --configdb cfgrs/cfgsvr1-ip:40001,cfgsvr2-ip:40002,cfgsvr3-ip:40003 --bind_ip 0.0.0.0 --port 27017
+    ports:
+      - 60000:27017

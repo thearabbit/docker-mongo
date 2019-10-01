@@ -1,0 +1,140 @@
+version: "3.7"
+
+services:
+  # Config Server
+  cfgsvr1:
+    container_name: cfgsvr1
+    image: mongo:4.0.6
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db
+    ports:
+      - 40001:27017
+    volumes:
+      - cfgsvr1:/data/db
+
+  cfgsvr2:
+    container_name: cfgsvr2
+    image: mongo:4.0.6
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db
+    ports:
+      - 40002:27017
+    volumes:
+      - cfgsvr2:/data/db
+
+  cfgsvr3:
+    container_name: cfgsvr3
+    image: mongo:4.0.6
+    command: mongod --configsvr --replSet cfgrs --port 27017 --dbpath /data/db
+    ports:
+      - 40003:27017
+    volumes:
+      - cfgsvr3:/data/db
+
+  # Sharding1
+  shard1svr1:
+    container_name: shard1svr1
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db
+    ports:
+      - 50011:27017
+    volumes:
+      - shard1svr1:/data/db
+
+  shard1svr2:
+    container_name: shard1svr2
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db
+    ports:
+      - 50012:27017
+    volumes:
+      - shard1svr2:/data/db
+
+  shard1svr3:
+    container_name: shard1svr3
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard1rs --port 27017 --dbpath /data/db
+    ports:
+      - 50013:27017
+    volumes:
+      - shard1svr3:/data/db
+
+  # Sharding2
+  shard2svr1:
+    container_name: shard2svr1
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db
+    ports:
+      - 50021:27017
+    volumes:
+      - shard2svr1:/data/db
+
+  shard2svr2:
+    container_name: shard2svr2
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db
+    ports:
+      - 50022:27017
+    volumes:
+      - shard2svr2:/data/db
+
+  shard2svr3:
+    container_name: shard2svr3
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard2rs --port 27017 --dbpath /data/db
+    ports:
+      - 50023:27017
+    volumes:
+      - shard2svr3:/data/db
+
+  # Sharding3
+  shard3svr1:
+    container_name: shard3svr1
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard3rs --port 27017 --dbpath /data/db
+    ports:
+      - 50031:27017
+    volumes:
+      - shard3svr1:/data/db
+
+  shard3svr2:
+    container_name: shard3svr2
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard3rs --port 27017 --dbpath /data/db
+    ports:
+      - 50032:27017
+    volumes:
+      - shard3svr2:/data/db
+
+  shard3svr3:
+    container_name: shard3svr3
+    image: mongo:4.0.6
+    command: mongod --shardsvr --replSet shard3rs --port 27017 --dbpath /data/db
+    ports:
+      - 50033:27017
+    volumes:
+      - shard3svr3:/data/db
+
+  # Router
+  router1:
+    container_name: router1
+    image: mongo:4.0.6
+    command: mongos --configdb cfgrs/192.168.1.105:40001,192.168.1.105:40002,192.168.1.105:40003 --bind_ip 0.0.0.0 --port 27017
+    ports:
+      - 60001:27017
+
+volumes:
+  # Config
+  cfgsvr1:
+  cfgsvr2:
+  cfgsvr3:
+  # Sharding1
+  shard1svr1:
+  shard1svr2:
+  shard1svr3:
+  # Sharding2
+  shard2svr1:
+  shard2svr2:
+  shard2svr3:
+  # Sharding3
+  shard3svr1:
+  shard3svr2:
+  shard3svr3:
